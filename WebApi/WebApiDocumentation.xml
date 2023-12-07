@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:WebApi.EUViesService.matchCode">
+            <remarks/>
+        </member>
+        <member name="F:WebApi.EUViesService.matchCode.Item1">
+            <remarks/>
+        </member>
+        <member name="F:WebApi.EUViesService.matchCode.Item2">
+            <remarks/>
+        </member>
+        <member name="F:WebApi.EUViesService.matchCode.Item3">
+            <remarks/>
+        </member>
+        <member name="M:WebApi.Controllers.VatVerifierController.VerifyVat(System.String,System.String)">
+            <summary>
+            Verifies the given VAT ID for the given country using the EU VIES web service.
+            </summary>
+            <param name="countryCode">Country code to verify</param>
+            <param name="vatId">Vat number to verify</param>
+            <returns>Verification status</returns>
+        </member>
+        <member name="M:WebApi.Interfaces.IVatVerifier.VerifyVat(System.String,System.String)">
+            <summary>
+            Verifies the given VAT ID for the given country using the EU VIES web service.
+            </summary>
+            <param name="countryCode">Country code to verify</param>
+            <param name="vatId">Vat number to verify</param>
+            <returns>Verification status</returns>
+        </member>
+        <member name="M:WebApi.Services.VatVerifierService.VerifyVat(System.String,System.String)">
+            <summary>
+            Verifies the given VAT ID for the given country using the EU VIES web service.
+            </summary>
+            <param name="countryCode">Country code to verify</param>
+            <param name="vatId">Vat number to verify</param>
+            <returns>Verification status</returns>
+        </member>
+    </members>
+</doc>
