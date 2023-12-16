@@ -1,22 +1,28 @@
 import { useState } from 'react'
 import './App.css'
 import VatNumberStatus from './VatNumberStatus';
+import VatVerifyButton from './VatVerifyButton';
 
 export default function App() {
     const [countryCode, setCountryCode] = useState("");
     const [vatId, setVatId] = useState("");
     const [vatStatus, setVatStatus] = useState(-1);
-    const [showVatStatus, setShowVatStatus] = useState(true);
+    const [showVatStatus, setShowVatStatus] = useState(false);
 
-    const VerifyVatNumber = () => {        
+    function handleVerifyButton() {        
         var apiUrl = "http://localhost:5118/api/vatverifier";
 
-        fetch(apiUrl + "?countryCode=" + countryCode + "&vatId=" + vatId, { method: 'GET' })
-            .then(resp => resp.json())
-            .then(data => {
-                setShowVatStatus(true);
-                setVatStatus(data);
-            });
+        try {
+            fetch(apiUrl + "?countryCode=" + countryCode + "&vatId=" + vatId, { method: 'GET' })
+                .then(resp => resp.json())
+                .then(data => {
+                    setVatStatus(data);
+                    setShowVatStatus(true);
+                });
+        } catch (e) {
+            setVatStatus(-1);
+            setShowVatStatus(true);
+        }
     }
 
     function UpdateCountryCode(countryCode) {
@@ -57,11 +63,8 @@ export default function App() {
             </table>
 
             <br />
-
-            <button onClick={VerifyVatNumber} >
-                Verify vat number
-            </button>
-
+            <VatVerifyButton onClick={handleVerifyButton } />
+            
             <br />
             <VatNumberStatus status={vatStatus} showVatStatus={showVatStatus} />
     </>
