@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import './App.css'
+import VatNumberStatus from './VatNumberStatus';
 
-function App() {
+export default function App() {
     const [countryCode, setCountryCode] = useState("");
     const [vatId, setVatId] = useState("");
+    const [vatStatus, setVatStatus] = useState(-1);
+    const [showVatStatus, setShowVatStatus] = useState(true);
 
     const VerifyVatNumber = () => {        
         var apiUrl = "http://localhost:5118/api/vatverifier";
@@ -11,20 +14,24 @@ function App() {
         fetch(apiUrl + "?countryCode=" + countryCode + "&vatId=" + vatId, { method: 'GET' })
             .then(resp => resp.json())
             .then(data => {
-                switch (data) {
-                    case 0: alert("Vat number is valid");
-                        break;
-                    case 1: alert("Vat number is invalid");
-                        break;
-                    default: alert("Service is unavailable");
-                        break;
-                }
+                setShowVatStatus(true);
+                setVatStatus(data);
             });
+    }
+
+    function UpdateCountryCode(countryCode) {
+        setCountryCode(countryCode);
+        setShowVatStatus(false);
+    }
+
+    function UpdateVatId(vatId) {
+        setVatId(vatId);
+        setShowVatStatus(false);
     }
 
     return (
         <>
-            <table className="divMain">
+            <table>
                 <tbody>
                     <tr>
                         <td>
@@ -32,7 +39,7 @@ function App() {
                         </td>
                         <td>
                             <input type="text" placeholder="2 letters required"
-                                onChange={event => setCountryCode(event.target.value)}
+                                onChange={event => UpdateCountryCode(event.target.value)}
                                 minLength="2" maxLength="2"></input>
                         </td>
                     </tr>
@@ -41,7 +48,7 @@ function App() {
                             Vat number
                         </td>
                         <td>
-                            <input type="text" onChange={event => setVatId(event.target.value)}
+                            <input type="text" onChange={event => UpdateVatId(event.target.value)}
                                 minLength="2" maxLength="12"
                                 placeholder="Min 2 and Max 12 digits or letters"></input>
                         </td>
@@ -54,7 +61,9 @@ function App() {
             <button onClick={VerifyVatNumber} >
                 Verify vat number
             </button>
+
+            <br />
+            <VatNumberStatus status={vatStatus} showVatStatus={showVatStatus} />
     </>
     )
 }
-export default App
